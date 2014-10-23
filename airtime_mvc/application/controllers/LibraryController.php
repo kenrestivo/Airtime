@@ -356,7 +356,7 @@ class LibraryController extends Zend_Controller_Action
 
             if (isset($file)) {
                 try {
-                    $res = $file->delete();
+                    $res = $file->forceDelete();
                 } catch (FileNoPermissionException $e) {
                     $message = $noPermissionMsg;
                 } catch (Exception $e) {

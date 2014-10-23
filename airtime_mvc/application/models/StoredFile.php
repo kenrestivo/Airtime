@@ -425,6 +425,28 @@ SQL;
     }
 
 
+
+/**
+   Forcibly and with extreme prejudice, delete the file,
+   and do not argue, complain, disobey, or otherwise attempt to thwart my will.
+   I want this file gone, and it will be GONE.
+**/
+public function forceDelete()
+{
+	Application_Model_Playlist::DeleteFileFromAllPlaylists($this->getId());
+	$sql = <<<SQL
+DELETE
+FROM cc_schedule
+WHERE file_id = :file_id
+AND ends > NOW() AT TIME ZONE 'UTC'
+SQL;
+	$count = Application_Common_Database::prepareAndExecute($sql, 
+								array(':file_id'=> $this->_file->getDbId()), 
+								'column');
+	$this->delete();
+}
+
+
     public function getRealFileExtension() {
         $path = $this->_file->getDbFilepath();
         $path_elements = explode('.', $path);
