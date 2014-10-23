@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 # Turn a source into an infaillible source.
 # by adding blank when the source is not available.
@@ -727,3 +728,57 @@ def log_clocks(~delay=0.,~interval=1.,logfile)
     add_timeout(delay,{add_timeout(interval,report) (-1.)})
   end
 end
+
+def legal_name_fix(s)
+  string.replace(pattern='[^abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789]+',
+                 fun (_) -> '_',s)
+end
+
+def format_save(m)
+  [("title", list.nth(get_process_lines("date '+%Y-%m-%d'"),0)),
+   ('album', m['artist_clean']),
+   ('artist', legal_name_fix(m['artist_clean']))]
+end
+
+
+def orn(a,b) 
+  if a != "" then
+    a 
+  else 
+    b 
+  end
+end
+
+# Pattern used everywhere in Airtime: for side effects or sinking, 
+# send output of a stream to an ignored output.dummy
+# @category Liquidsoap
+# @param ~s A source
+def dummy_up(s)
+  ignore(output.dummy(fallible=true, s))
+end
+
+def log2_metadata(msg, m)
+  mj = json_of(m)
+  log(msg ^ " now: #{mj}")
+end
+
+def log_metadata(msg, s)
+  dummy_up(on_metadata(log2_metadata(msg), s))
+                       
+end
+
+# hacks to get around bug in 1.1.1 where skip_blank was removed and not replaced or documnted!!
+
+
+# Skip track when detecting a blank.
+# @category Source / Track Processing
+# @param ~id Force the value of the source ID.
+# @param ~threshold Power in decibels under which the stream is considered silent.
+# @param ~max_blank Maximum silence length allowed, in seconds.
+# @param ~min_noise Minimum duration of noise required to end silence, in seconds.
+# @param ~track_sensitive Reset blank counter at each track.
+
+def skip_blank(~id="", ~threshold=-40., ~max_blank=20., ~min_noise=0., ~track_sensitive=true, s)
+  on_blank({source.skip(s)}, threshold=threshold, max_blank=max_blank, min_noise=min_noise, track_sensitive=track_sensitive, s)
+end
+
