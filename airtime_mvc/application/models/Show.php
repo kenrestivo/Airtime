@@ -1277,6 +1277,7 @@ FROM cc_show_instances si
 WHERE si.show_id = s.id
   AND si.starts >= :timeStart::timestamp
   AND si.starts < :timeEnd::timestamp
+  AND s.name NOT LIKE '%HIDDEN%'
   AND modified_instance != TRUE
 ORDER BY si.starts
 SQL;
