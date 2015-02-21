@@ -1139,6 +1139,7 @@ FROM cc_show_instances si
      ON si.show_id = s.id
 WHERE si.show_id = s.id
   AND si.starts > :timeNow1::timestamp - INTERVAL '2 days'
+  AND s.name NOT LIKE '%HIDDEN%'
   AND si.ends < :timeNow2::timestamp + INTERVAL '2 days'
   AND modified_instance != TRUE
 ORDER BY si.starts
