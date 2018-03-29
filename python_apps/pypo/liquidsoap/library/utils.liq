@@ -757,11 +757,23 @@ def dummy_up(s)
   ignore(output.dummy(fallible=true, s))
 end
 
+
+def post2_metadata(msg, m)
+  mj = json_of(m)
+  log("posting: #{mj}")
+  ## horrible place for this, but this is such a mess, just want to get this done.
+  http.post(data=mj, "http://localhost:8080/now-playing")
+end
+
+def post_metadata(msg, s)
+  dummy_up(on_metadata(post2_metadata(msg), s))
+end
+
+
+
 def log2_metadata(msg, m)
   mj = json_of(m)
   log(msg ^ " now: #{mj}")
-  ## horrible place for this, but this is such a mess, just want to get this done.
-  http.post(data=mj, "http://localhost:8080/now-playing")
 end
 
 def log_metadata(msg, s)
