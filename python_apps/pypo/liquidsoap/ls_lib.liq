@@ -418,12 +418,12 @@ def munge_live_hdr(m)
   log("got headers #{m}")
   # not setting title here because it might get set by something else
   lm =  [("artist_clean", orn(m['ice-name'], m['icy-name'])),
-         ("artist", "[LIVE!] " ^ 
-                 orn(m['ice-name'], m['icy-name'] ) 
-                 ^ " - " ^ 
-                 orn(m['ice-description']  , m['icy-description'] )),
+         ("artist", orn(m['ice-name'], m['icy-name']) 
+          ^ " - " ^ 
+            orn(m['ice-description']  , m['icy-description'] )),
          ("mapped", "true"), # make airtime stop attempting to mangle it
          ("url",  orn(m['ice-url'], m['icy-url'])),
+         ("live", "true"),
          ("description",  
                  orn(m['ice-description'], m['icy-description']))]
   log("set live_meta to #{lm}")
