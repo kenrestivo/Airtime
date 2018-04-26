@@ -758,17 +758,17 @@ def dummy_up(s)
 end
 
 
-def post2_metadata(msg, m)
+def post2_metadata(m)
   mj = json_of(m)
   log("posting: #{mj}")
   ## horrible place for this, but this is such a mess, just want to get this done.
   http.post(data=mj, "http://localhost:8080/now-playing")
 end
 
-def post_metadata(msg, s)
-  dummy_up(on_metadata(post2_metadata(msg), s))
-end
 
+def post_metadata(s)
+  dummy_up(on_metadata(post2_metadata, s))
+end
 
 
 def log2_metadata(msg, m)
