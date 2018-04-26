@@ -762,7 +762,7 @@ def post2_metadata(m)
   mj = json_of(m)
   log("posting: #{mj}")
   ## horrible place for this, but this is such a mess, just want to get this done.
-  http.post(data=mj, "http://localhost:8080/now-playing")
+  ignore(http.post(data=mj, "http://localhost:8080/now-playing"))
 end
 
 
