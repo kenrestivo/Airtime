@@ -299,7 +299,7 @@ s = if master_live_stream_port != 0 and master_live_stream_mp != "" then
 
       # we don't want dj's leaving their system on and forgetting...
       master_dj = strip_blank(id="master-stripblank",
-                              threshold=-30.0,
+                              threshold=-50.0,
                               max_blank=60.0,
                               master_raw)
 
