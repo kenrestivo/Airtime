@@ -5,12 +5,11 @@ def legal_name_fix(s)
                  fun (_) -> '_',s)
 end
 
-# TODO: FIXX MEEEEE BREAKAGE
-#def format_save(m)
- # [("title", list.nth(get_process_lines("date '+%Y-%m-%d'"),0)),
-  # ('album', m['artist_clean']),
-   #('artist', legal_name_fix(m['artist_clean']))]
-#end
+def format_save(m)
+[("title", list.nth(get_process_lines("date '+%Y-%m-%d'"),0,  default="unknown")),
+ ('album', m['artist_clean']),
+ ('artist', legal_name_fix(m['artist_clean']))]
+end
 
 # returns a or b, like the clojure or function or ternary operator in c
 def orn(a,b) 
