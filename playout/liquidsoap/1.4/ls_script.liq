@@ -197,7 +197,7 @@ jukebox = audio_to_stereo(id="stereoize",
                           skip_blank(id="stor-skipblank",
                                      playlist(id="archives",
                                               reload=86400,
-                                              "/usr/share/airtime/public/archives")))
+                                              "/usr/share/airtime/php/legacy/public/archives")))
 
 
 
@@ -254,12 +254,16 @@ def live_dj_disconnect() =
     update_source_status("live_dj", false)
 end
 
+live_meta = ref []
+
 def master_dj_connect(header) =
     update_source_status("master_dj", true)
+    live_meta := munge_live_hdr(header)
 end
 
 def master_dj_disconnect() =
     update_source_status("master_dj", false)
+    live_meta := []
 end
 
 # Auth function for live stream
