@@ -304,7 +304,7 @@ end
 
 s = switch(id="schedule_noise_switch",
             track_sensitive=false,
-            transitions=[transition_default, transition],
+            #transitions=[transition_default, transition],
             [({!scheduled_play_enabled}, stream_queue), ({true}, default)]
     )
 
@@ -323,7 +323,7 @@ s = if dj_live_stream_port != 0 and dj_live_stream_mp != "" then
 
     switch(id="show_schedule_noise_switch",
             track_sensitive=false,
-            transitions=[transition, transition],
+            #transitions=[transition, transition],
             [({!live_dj_enabled}, dj_live), ({true}, s)]
         )
 else
@@ -345,7 +345,7 @@ s = if master_live_stream_port != 0 and master_live_stream_mp != "" then
 
     switch(id="master_show_schedule_noise_switch",
             track_sensitive=false,
-            transitions=[transition, transition],
+            #transitions=[transition, transition],
             [({!master_dj_enabled}, master_dj), ({true}, s)]
         )
 else
