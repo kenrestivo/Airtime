@@ -404,9 +404,6 @@ else
 end
 
 
-# Attach a skip command to the source s:
-#add_skip_command(s)
-
 server.register(namespace="streams",
     description="Stop Master DJ source.",
     usage="master_dj_stop",
