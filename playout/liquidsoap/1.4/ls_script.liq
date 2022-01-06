@@ -259,12 +259,12 @@ live_meta = ref []
 def master_dj_connect(header) =
     update_source_status("master_dj", true)
     live_meta := munge_live_hdr(header)
+    # jukebox.skip() ## TODO: try this
 end
 
 def master_dj_disconnect() =
     update_source_status("master_dj", false)
     live_meta := []
-    # jukebox.skip() ## TODO: try this
 end
 
 # Auth function for live stream
