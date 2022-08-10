@@ -1,5 +1,11 @@
+# coding: utf-8
+%include "utils.liq"
+
 def gateway(args)
   command = "timeout --signal=KILL 45 libretime-playout-notify #{args} &"
+
+def notify(m)
+  command = "timeout --signal=KILL 45 libretime-playout-notify --media-id=#{m['schedule_table_id']} &"
   log(command)
   system(command)
 end
@@ -190,32 +196,6 @@ def output_to(output_type, type, bitrate, host, port, pass, mount_point, url, de
     end
 end
 
-# Add a skip function to a source
-# when it does not have one
-# by default
-#def add_skip_command(s)
-# # A command to skip
-#  def skip(_)
-#    # get playing (active) queue and flush it
-#    l = list.hd(server.execute("queue.secondary_queue"))
-#    l = string.split(separator=" ",l)
-#    list.iter(fun (rid) -> ignore(server.execute("queue.remove #{rid}")), l)
-#
-#    l = list.hd(server.execute("queue.primary_queue"))
-#    l = string.split(separator=" ", l)
-#    if list.length(l) > 0 then
-#      source.skip(s)
-#      "Skipped"
-#    else
-#      "Not skipped"
-#    end
-#  end
-# # Register the command:
-# server.register(namespace="source",
-#                 usage="skip",
-#                 description="Skip the current song.",
-#                 "skip",fun(s) -> begin log("source.skip") skip(s) end)
-#end
 
 def clear_queue(s)
     source.skip(s)
@@ -385,3 +365,18 @@ def http_fallback(~http_input_id,~http,~default)
      ({true},default)])
 
 end
+
+
+def munge_live_hdr(m)
+  log("got headers #{m}")
+  # not setting title here because it might get set by something else
+  lm =  [("artist_clean", orn(m['ice-name'], m['icy-name'])),
+         ("artist", orn(m['ice-name'], m['icy-name'])),
+         ("mapped", "true"), # make airtime stop attempting to mangle it
+         ("url", orn(m['ice-url'], m['icy-url'])),
+         ("live", "true"),
+         ("description",  orn(m['ice-description'], m['icy-description']))]
+  log("set live_meta to #{lm}")
+  lm
+end
+
