@@ -195,6 +195,8 @@ log(off_air_meta)
 # just in case something screws up via airtime
 jukebox = audio_to_stereo(id="stereoize",
                           skip_blank(id="stor-skipblank",
+                                     threshold=-40.0,
+                                     max_blank=90.0,
                                      playlist(id="archives",
                                               "/usr/share/airtime/php/legacy/public/archives")))
 
